@@ -1,9 +1,58 @@
 import random
-# Importiert die STAGES Liste aus der neuen Datei
-from ascii_art import STAGES
 
-# List of secret words
-WORDS = ["python", "git", "github", "snowman", "meltdown", "java", "stralsund"]
+# --- ASCII ART (aus ascii_art.py) ---
+# Snowman ASCII Art stages
+# Erweitert auf 6 Phasen (Index 0-5), was 5 Fehlversuche erlaubt.
+STAGES = [
+     # Stage 0: Full snowman (5 wrong guesses left)
+     """
+      ___  
+     /___\\ 
+     (o o) 
+     ( : ) 
+     ( : ) 
+     """,
+     # Stage 1: Bottom button melts (4 wrong guesses left)
+     """
+      ___  
+     /___\\ 
+     (o o) 
+     ( : ) 
+     (   ) 
+     """,
+     # Stage 2: Bottom part starts melting (3 wrong guesses left)
+     """
+      ___  
+     /___\\ 
+     (o o) 
+     ( : ) 
+     """,
+     # Stage 3: Only the head remains (2 wrong guesses left)
+     """
+      ___  
+     /___\\ 
+     (o o) 
+     """,
+     # Stage 4: Head starts melting (1 wrong guess left)
+     """
+      ___  
+     /___\\ 
+     """,
+     # Stage 5: Snowman completely melted (Game Over)
+     """
+       * / \\
+     * *
+     """
+ ]
+
+# --- SPIEL LOGIK (aus game_logic.py) ---
+
+# List of secret words (erweitert)
+WORDS = [
+    "python", "git", "github", "snowman", "meltdown", "java", "stralsund",
+    "entwickler", "schleife", "funktion", "variable", "klasse", "modul",
+    "terminal", "tastatur", "algorithmus", "programm", "bibliothek", "compiler"
+]
  
 def get_random_word():
     """Selects a random word from the list."""
@@ -12,7 +61,8 @@ def get_random_word():
 
 def display_game_state(mistakes, secret_word, guessed_letters):
     """Zeigt den aktuellen Spielstand an (ASCII-Art und Wort-Status)."""
-    print("\n" + "="*30)
+    # Verwendet ~ für ein weicheres Display
+    print("\n" + "~"*30)
     print(STAGES[mistakes]) # Zeigt die ASCII-Art basierend auf der Anzahl der Fehler
 
     # Generiert die Wortanzeige (mit Unterstrichen)
@@ -25,7 +75,8 @@ def display_game_state(mistakes, secret_word, guessed_letters):
             
     print("\nAktuelles Wort: ", " ".join(display_word_list))
     print("Bereits geraten: ", ", ".join(sorted(guessed_letters)))
-    print("="*30 + "\n")
+    # Verwendet ~ für ein weicheres Display
+    print("~"*30 + "\n")
 
 def play_game():
     """Führt eine Spielrunde "Snowman Meltdown" aus."""
@@ -34,10 +85,10 @@ def play_game():
     # display_word wird weiterhin intern für die Sieg-Bedingung benötigt
     display_word = ["_"] * len(secret_word) 
     mistakes = 0 # Variable für Fehler initialisiert
-    max_wrong_guesses = len(STAGES) - 1
+    max_wrong_guesses = len(STAGES) - 1 # Jetzt 5 (Index 0-5)
 
     print("Willkommen bei Snowman Meltdown!")
-    print(f"Das Wort hat {len(secret_word)} Buchstaben. Du hast {max_wrong_guesses} Fehlversuche.")
+    print(f"Das Wort hat {len(secret_word)} Buchstaben. Du hast jetzt {max_wrong_guesses} Fehlversuche.")
 
     # --- Haupt-Spielschleife ---
     while mistakes < max_wrong_guesses:
@@ -47,7 +98,7 @@ def play_game():
         # 1. Rateversuch einholen
         guess = input("Rate einen Buchstaben: ").lower().strip() # .strip() entfernt Leerzeichen
 
-        # 2. Eingabe validieren
+        # 2. Eingabe validieren (bereits implementiert)
         if not guess.isalpha() or len(guess) != 1:
             print("Ungültige Eingabe. Bitte gib einen einzelnen Buchstaben ein.")
             continue
@@ -88,6 +139,7 @@ def play_game():
 
 def main():
     """Hauptfunktion, um das Spiel zu starten und Wiederholungen zu ermöglichen."""
+    # Wiederholungsoption (bereits implementiert)
     while True:
         play_game()
         
@@ -96,6 +148,8 @@ def main():
             print("Danke fürs Spielen! Bis zum nächsten Mal.")
             break
 
+# --- STARTPUNKT (aus snowman.py) ---
+# Dies ist der "Startknopf"
 if __name__ == "__main__":
     # Ruft die Hauptfunktion auf, die die Spiel- und Wiederholungsschleife enthält
     main()
